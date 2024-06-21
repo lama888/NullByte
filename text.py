@@ -130,8 +130,10 @@ button_style = {
     "font": ("Arial", 11, "bold"),  # Adjust font size here.
     "relief": tk.FLAT,
     "bd": 1,
+    "cursor": "hand2", #change cursor when hovering to buttons
     "width": 12,  # Adjust width here.
     "height": 1,  # Adjust height here.
+    
 }
 
 # Function buttons
@@ -168,6 +170,7 @@ text_widget.pack(fill="both", expand=True, pady=5, padx=5)
 canvas.bind("<Button-1>", begin_drawing)
 canvas.bind("<B1-Motion>", draw)
 canvas.bind("<ButtonRelease-1>", stop_drawing)
+canvas.config(cursor="cross") #cursor change when hovering in drawing area or canvas
 
 text_widget.bind("<Key>", update_status_bar)
 text_widget.bind("<Button-1>", update_status_bar)
