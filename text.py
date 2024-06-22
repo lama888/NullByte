@@ -80,6 +80,20 @@ def undo():
     update_status("Undo last action")
 
 
+def rubber(event):
+    items = canvas.find_overlapping(event.x - line_width / 2, event.y - line_width / 2, event.x + line_width / 2, event.y + line_width / 2)
+    for item in items:
+        canvas.delete(item)
+
+def start_rubber(event):
+    canvas.config(cursor="circle")
+    rubber(event)
+
+def stop_rubber(event):
+    canvas.config(cursor="cross")
+
+
+
 #Updates the status bar with lines and columns
 def update_status_bar(event): 
     cursor_position = text_widget.index(tk.INSERT)
@@ -171,6 +185,10 @@ canvas.bind("<Button-1>", begin_drawing)
 canvas.bind("<B1-Motion>", draw)
 canvas.bind("<ButtonRelease-1>", stop_drawing)
 canvas.config(cursor="cross") #cursor change when hovering in drawing area or canvas
+
+canvas.bind("<Button-3>", start_rubber)
+canvas.bind("<B3-Motion>", rubber)
+canvas.bind("<ButtonRelease-3>", stop_rubber)
 
 text_widget.bind("<Key>", update_status_bar)
 text_widget.bind("<Button-1>", update_status_bar)
