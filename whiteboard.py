@@ -1,23 +1,18 @@
 import tkinter as tk
-# for themed widgets
-from tkinter import ttk  
+from tkinter import ttk  # for themed widgets
 from tkinter.colorchooser import askcolor
 from tkinter import filedialog, messagebox
 
-#Main application window.
-window = tk.Tk()
 
-#Title
+window = tk.Tk()     #Main application window.
 window.title("Whiteboard App") 
-
-# Adjust window size here for better layout.
-window.geometry("1200x600") 
+window.geometry("1200x600")    # Adjust window size here for better layout.
 
 def begin_drawing(event): 
     global is_drawing, prev_x, prev_y
     is_drawing = True
     prev_x, prev_y = event.x, event.y
-    update_status("Drawing...")
+    
 
 def draw(event):
     global is_drawing, prev_x, prev_y
@@ -30,9 +25,7 @@ def draw(event):
 def stop_drawing(event):
     global is_drawing
     is_drawing = False
-    update_status("")
-
-
+    
 
 #Function for Opening a color chooser dialog 
 def change_pen_color(): 
@@ -80,30 +73,8 @@ def undo():
     update_status("Undo last action")
 
 
-def rubber(event):
-    items = canvas.find_overlapping(event.x - line_width / 2, event.y - line_width / 2, event.x + line_width / 2, event.y + line_width / 2)
-    for item in items:
-        canvas.delete(item)
-
-def start_rubber(event):
-    canvas.config(cursor="circle")
-    rubber(event)
-
-def stop_rubber(event):
-    canvas.config(cursor="cross")
-
-
-
-#Updates the status bar with lines and columns
-def update_status_bar(event): 
-    cursor_position = text_widget.index(tk.INSERT)
-    line, column = cursor_position.split('.')
-    update_status(f"Line: {line}, Column: {column}")
-
 def update_status(message): 
     status_var.set(message)
-
-
 
 
 # It hold the control button.
@@ -186,12 +157,6 @@ canvas.bind("<B1-Motion>", draw)
 canvas.bind("<ButtonRelease-1>", stop_drawing)
 canvas.config(cursor="cross") #cursor change when hovering in drawing area or canvas
 
-canvas.bind("<Button-3>", start_rubber)
-canvas.bind("<B3-Motion>", rubber)
-canvas.bind("<ButtonRelease-3>", stop_rubber)
-
-text_widget.bind("<Key>", update_status_bar)
-text_widget.bind("<Button-1>", update_status_bar)
 
 # Making responsive using columns weights.
 window.grid_rowconfigure(1, weight=1)
